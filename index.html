@@ -29,8 +29,10 @@
                 <div class="table-row">
                     <div class="table-cell">
                         <div class="section01-content">
-                            <h1><span>&lt;</span>WELCOME!<br>I AM ALEJANDRO H. CARTOJANO JR.<span>/&gt;</span></h1>
-                            <p class="tagline">Front-end Web Developer</p>
+                            <div class="content-details">
+                                <h1><span>&lt;</span>WELCOME!<br>I AM ALEJANDRO H. CARTOJANO JR.<span>/&gt;</span></h1>
+                                <p class="tagline">Front-end Web Developer</p>
+                            </div>
                         </div>
                         <a class="button anchor" id="learnmore" href="#section03">LEARN MORE</a>
                         <a class="button anchor" id="getintouch" href="#section04">GET IN TOUCH</a>
@@ -138,17 +140,17 @@
                 <div class="table-row">
                     <div class="table-cell">
                         <h2>Feeling cool? Reach out now!</h2>
-                        <p class="tagline">Let's make it simple.</p>
-                        <form class="form">
-                            <input type="text" id="name" placeholder="Your name*">
-                            <input type="text" id="email" placeholder="Your email*">
-                            <textarea name="message" id="message" placeholder="Your message*"></textarea>
+                        <p class="tagline">Let's make it simple & fill up this form.</p>
+                        <form class="form" id="contact-form" method="post" action="#">
+                            <input type="text" name="name" id="name" placeholder="Your name*" required>
+                            <input type="text" name="email" id="email" placeholder="Your email*" required>
+                            <textarea name="message" id="message" placeholder="Your message*" required></textarea>
                             <button>Submit</button>
                         </form>
                         <hr class="divider">
                         <ul class="list-social-links">
                             <li>
-                                <h3>Pick here:</h3>
+                                <h3>Follow me:</h3>
                             </li>
                             <li>
                                 <a href="https://www.facebook.com/jhetuts" target="_blank"><img src="images/icons/fb.png" alt=""></a>
@@ -175,6 +177,7 @@
         </div>
     </footer>
     <script src="js/jquery.js"></script>
+    <script src="js/serialize.js"></script>
     <script src="js/custom.js"></script>
 </body>
 </html>
