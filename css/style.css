@@ -339,9 +339,6 @@ footer{
         padding: 1rem;
         box-sizing: border-box;
     }
-    #section01{
-        height: 100vh;
-    }
     nav{
         top: 10%;
         transform: translateY(-10%);
@@ -359,6 +356,10 @@ footer{
         width: 93px;
         font-size: 0.6rem;
     }
+    .section01-content{
+        width: 400px;
+        height: 400px;
+    }
     .profile{
         width: 150px;
     }
@@ -374,8 +375,17 @@ footer{
     .nav-list li.active:last-child a{
         border-top: none;
     }
+    footer{
+        padding: 0;
+        font-size: 0.75rem;
+        text-align: center;
+    }
 }
 @media(max-width: 768px){
+    section{
+        height: auto;
+        padding: 50px 0;
+    }
     .list-group .list-item{
         width: 33.33%;
     }
@@ -481,7 +491,6 @@ footer{
 @media(max-width: 767px){
     section{
         height: auto;
-        padding: 50px 0;
     }
     h1{
         font-size: 1.5rem;
@@ -502,6 +511,7 @@ footer{
     .section01-content{
         width: 260px;
         height: 260px;
+        padding: 2%;
     }
     .list-group .list-item{
         width: 50%;
@@ -524,11 +534,10 @@ footer{
         font-size: 0.5rem;
     }
     .list-group-skills li .skill-details{
-        padding: 10px;
+        padding: 13px;
     }
     #section04{
         background: #ccc url(../images/contact.jpg) no-repeat -72px 0 / cover;
-        height: 100vh;
         color: #2a2a2a;
     }
     .list-social-links{
@@ -546,9 +555,14 @@ footer{
         width: 20px;
         height: 20px;
     }
-    footer{
+}
+@media(max-width: 414px){
+    section#section01,
+    section#section04{
+        height: 100vh;
         padding: 0;
-        font-size: 0.75rem;
-        text-align: center;
+    }
+    section#section04{
+        padding-bottom: 20px;
     }
 }
