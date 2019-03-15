@@ -141,10 +141,11 @@
                     <div class="table-cell">
                         <h2>Feeling cool? Reach out now!</h2>
                         <p class="tagline">Let's make it simple & fill up this form.</p>
-                        <form class="form" id="contact-form" method="post" action="#">
-                            <input type="text" name="name" id="name" placeholder="Your name*" required>
-                            <input type="text" name="email" id="email" placeholder="Your email*" required>
-                            <textarea name="message" id="message" placeholder="Your message*" required></textarea>
+                        <form class="form" id="contact-form" action="https://formspree.io/alejandro.cartojano@gmail.com" method="POST">
+                            <input type="text" name="name" id="name" placeholder="Your name*">
+                            <input type="text" name="email" id="email" placeholder="Your email*">
+                            <span class="status"></span>
+                            <textarea name="message" id="message" placeholder="Your message*"></textarea>
                             <button>Submit</button>
                         </form>
                         <hr class="divider">
@@ -177,7 +178,7 @@
         </div>
     </footer>
     <script src="js/jquery.js"></script>
-    <script src="js/serialize.js"></script>
+    <script src="js/form-submit.js"></script>
     <script src="js/custom.js"></script>
 </body>
 </html>
