@@ -48,13 +48,16 @@
                         <p class="tagline">Can't wait to add yours too!</p>
                         <ul class="list-group">
                             <li class="list-item">
+                                <a href="https://beginners-community.herokuapp.com/" target="_blank"><img src="assets/projects/img10.jpg" alt=""></a>
+                            </li>
+                            <li class="list-item">
+                                <a href="http://edizonvillegas.000webhostapp.com/tracking/" target="_blank"><img src="assets/projects/img09.jpg" alt=""></a>
+                            </li>
+                            <li class="list-item">
                                 <a href="https://shop.sanrio.co.jp/pages/sanriocharacterranking2017.php" target="_blank"><img src="assets/projects/img01.jpg" alt=""></a>
                             </li>
                             <li class="list-item">
                                 <a href="https://www.ana.co.jp/ja/jp/amc/welcome/" target="_blank"><img src="assets/projects/img02.jpg" alt=""></a>
-                            </li>
-                            <li class="list-item">
-                                <a href="https://www.ana.co.jp/ja/jp/amc/join/" target="_blank"><img src="assets/projects/img03.jpg" alt=""></a>
                             </li>
                             <li class="list-item">
                                 <a href="https://jhetuts.github.io/github-finder-app/" target="_blank"><img src="assets/projects/img04.jpg" alt=""></a>
@@ -64,9 +67,6 @@
                             </li>
                             <li class="list-item">
                                 <a href="https://jhetuts.github.io/simple-loan-calculator-using-pure-javascript/" target="_blank"><img src="assets/projects/img06.jpg" alt=""></a>
-                            </li>
-                            <li class="list-item">
-                                <a href="https://jhetuts.github.io/adding-tasklist-using-local-storage-variable/" target="_blank"><img src="assets/projects/img07.jpg" alt=""></a>
                             </li>
                             <li class="list-item">
                                 <a href="https://jhetuts.github.io/coffeelicious/" target="_blank"><img src="assets/projects/img08.jpg" alt=""></a>
@@ -141,10 +141,9 @@
                     <div class="table-cell">
                         <h2>Feeling cool? Reach out now!</h2>
                         <p class="tagline">Let's make it simple & fill up this form.</p>
-                        <form class="form" id="contact-form" action="https://formspree.io/alejandro.cartojano@gmail.com" method="POST">
+                        <form class="form" id="contact-form" method="post" action="#">
                             <input type="text" name="name" id="name" placeholder="Your name*">
                             <input type="text" name="email" id="email" placeholder="Your email*">
-                            <span class="status"></span>
                             <textarea name="message" id="message" placeholder="Your message*"></textarea>
                             <button>Submit</button>
                         </form>
@@ -178,7 +177,7 @@
         </div>
     </footer>
     <script src="js/jquery.js"></script>
-    <script src="js/form-submit.js"></script>
+    <script src="js/serialize.js"></script>
     <script src="js/custom.js"></script>
 </body>
 </html>

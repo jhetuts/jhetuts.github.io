@@ -239,11 +239,6 @@ section{
     padding: 40px 20px;
     background: rgba(255, 255, 255, 0.4);
 }
-.form .status{
-    margin-bottom: 20px;
-    display: block;
-    color: red;
-}
 #section04 .form input,
 #section04 .form textarea,
 #section04 .form button{
