@@ -98,7 +98,15 @@
               }
             } else
             {
-              results.innerHTML = '<p>Bokya</p>'
+              results.innerHTML = `<p style="
+              display: flex;
+              flex - direction: column;
+              border - bottom: 1px solid #ccc;
+              padding: 10px 0;
+">
+<span>Page: <b>${offset / 10 === 0 ? 1 : parseInt(offset / 10) + 1}</b></span>
+<span>Surprise: Bokya</span>
+</p>`
             }
 
             if (res.data.length === 10)
