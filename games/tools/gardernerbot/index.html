@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gardener Bot</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body style="
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+">
+  <section class="token" style="
+    width: 30%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+">
+    <h2>Add Token</h2>
+    <textarea type="text" cols="10" rows="10" id="token" style="
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+"></textarea>
+    <button id="addToken">Add Token</button>
+  </section>
+  <section style="
+    flex: 1 1;
+    padding: 10px;
+">
+    <input type="text" id="id">
+    <button id="searchBtn">Check</button>
+    <input type="checkbox" name="crow" id="crow">
+    <label for="crow">Crow Only</label><br>
+    <div class="results" style="
+    margin: 10px 0;
+">
+    </div>
+  </section>
+  <script>
+
+    var offsetVar = 0
+
+    function checkingCrow(offset = 0, token, id)
+    {
+      id = id ? id : document.querySelector('#id').value
+      fetch(`https://backend-farm.plantvsundead.com/farms/other/${id}?limit=10&offset=${offset}`, {
+        method: 'GET',
+        headers: new Headers({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+      })
+        .then(res => res.json())
+        .then(res =>
+        {
+          if (res.status > 0)
+          {
+            results.innerHTML = '<p>Complete captcha first</p> <button id="resume">Resume when done</button>'
+            return setTimeout(() => document.querySelector('#resume') ? document.querySelector('#resume').addEventListener('click', (e) => checkingCrow(offsetVar, token, id.value)) : results.innerHTML = '<p>No resume button</p>', 100)
+          }
+          if (res && res.data && Object.keys(res.data).length > 0)
+          {
+            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : res.data;
+            if (mayCrow && mayCrow.length)
+            {
+              results.innerHTML = '<h3>With crow</h3>'
+              for (var d = 0; d < mayCrow.length; d++)
+              {
+                results.innerHTML += `<p style="
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+">
+                <span style="
+    color: #007effeb;
+">Water Count: <b>${mayCrow[d].activeTools[1].count}</b></span>
+                <span>Page: <b>${offset / 10 === 0 ? 1 : parseInt(offset / 10) + 1}</b></span>
+                <span>Coordinates: <b>${mayCrow[d].land.x}, ${mayCrow[d].land.y}</b></span>
+                <span>Plant Element: <b>${mayCrow[d].plantElement}</b></span>
+                <span>Havest Time: <b>${new Date(mayCrow[d].harvestTime).toUTCString()}</b></span ></b></span>
+                 <span style="
+    color: ${mayCrow[d].hasCrow ? 'cyan' : 'red'};
+">May crow?: <b>${mayCrow[d].hasCrow ? 'Meron' : 'Bokya'}</b></span ></b></span>
+              </p>`
+              }
+            } else
+            {
+              results.innerHTML = '<p>Bokya</p>'
+            }
+
+            if (res.data.length === 10)
+            {
+              offsetVar = offsetVar + 10;
+              setTimeout(() => checkingCrow(offsetVar, token, id.value), 3000)
+            }
+          } else
+          {
+            results.innerHTML = '<p>Bokya</p>'
+          }
+        })
+    }
+
+    var addToken = document.querySelector('#addToken')
+    var token = document.querySelector('#token')
+    var tokenWrap = document.querySelector('.token')
+
+    if (localStorage.getItem('token'))
+    {
+      token.value = localStorage.getItem('token')
+      addToken.textContent = 'Change Token'
+    }
+
+    addToken.addEventListener('click', function (e)
+    {
+      console.log(token)
+      if (token && token.value)
+      {
+        localStorage.setItem('token', token.value)
+        tokenWrap.style.display = 'none'
+      }
+    })
+
+    var searchBtn = document.querySelector('#searchBtn')
+    var id = document.querySelector('#id')
+    var results = document.querySelector('.results')
+    var crowOnly = document.querySelector('#crow')
+
+    searchBtn.addEventListener('click', function (e)
+    {
+      results.innerHTML = ''
+      token = localStorage.getItem('token')
+      offsetVar = 0
+      if (token && id && id.value)
+      {
+        checkingCrow(offsetVar, token, id.value)
+      }
+    })
+
+  </script>
+</body>
+
+</html>
