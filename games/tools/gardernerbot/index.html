@@ -43,6 +43,8 @@
     <button id="searchBtn">Check</button>
     <input type="checkbox" name="crow" id="crow">
     <label for="crow">Crow Only</label><br>
+    <input type="checkbox" name="water" id="water">
+    <label for="water">Water Only</label><br>
     <div class="results" style="
     margin: 10px 0;
 ">
@@ -72,7 +74,7 @@
           }
           if (res && res.data && Object.keys(res.data).length > 0)
           {
-            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : res.data;
+            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e => e.activeTools[1].count < 60) : res.data;
             if (mayCrow && mayCrow.length)
             {
               results.innerHTML = '<h3>With crow</h3>'
@@ -145,6 +147,7 @@
     var id = document.querySelector('#id')
     var results = document.querySelector('.results')
     var crowOnly = document.querySelector('#crow')
+    var waterOnly = document.querySelector('#water')
 
     searchBtn.addEventListener('click', function (e)
     {
