@@ -69,8 +69,8 @@
         {
           if (res.status > 0)
           {
-            results.innerHTML = '<p>Complete captcha first</p> <button id="resume">Resume when done</button>'
-            return setTimeout(() => document.querySelector('#resume') ? document.querySelector('#resume').addEventListener('click', (e) => checkingCrow(offsetVar, token, id.value)) : results.innerHTML = '<p>No resume button</p>', 100)
+            results.innerHTML += `<p>Complete captcha first</p> <button id="resume-${offset}">Resume when done</button>`
+            return setTimeout(() => document.querySelector(`#resume-${offset}`) ? document.querySelector(`#resume-${offset}`).addEventListener('click', (e) => checkingCrow(offsetVar, token, id.value)) : results.innerHTML = '<p>No resume button</p>', 100)
           }
           if (res && res.data && Object.keys(res.data).length > 0)
           {
@@ -98,6 +98,7 @@
                  <span style="
     color: ${mayCrow[d].hasCrow ? 'cyan' : 'red'};
 ">May crow?: <b>${mayCrow[d].hasCrow ? 'Meron' : 'Bokya'}</b></span ></b></span>
+                <a href="https://marketplace.plantvsundead.com/farm#/farm/other/${id}${parseInt(offset / 10) > 1 ? `?page=${parseInt(offset / 10) + 1}` : ''}"></a>
               </p>`
               }
             } else
