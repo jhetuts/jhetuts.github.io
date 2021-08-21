@@ -74,7 +74,7 @@
           }
           if (res && res.data && Object.keys(res.data).length > 0)
           {
-            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e => e.activeTools[1].count < 60) : res.data;
+            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e => e.activeTools[activeTools.length - 1].count < 60) : res.data;
             if (mayCrow && mayCrow.length)
             {
               results.innerHTML = '<h3>With crow</h3>'
