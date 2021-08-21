@@ -45,6 +45,8 @@
     <label for="crow">Crow Only</label><br>
     <input type="checkbox" name="water" id="water">
     <label for="water">Water Only</label><br>
+    <input type="text" id="water-limit">
+    <label for="water-limit">Water limit</label>
     <div class="results" style="
     margin: 10px 0;
 ">
@@ -72,16 +74,22 @@
             results.innerHTML += `<p>Complete captcha first</p> <button id="resume-${offset}">Resume when done</button>`
             return setTimeout(() => document.querySelector(`#resume-${offset}`) ? document.querySelector(`#resume-${offset}`).addEventListener('click', (e) => checkingCrow(offsetVar, token, id.value)) : results.innerHTML = '<p>No resume button</p>', 100)
           }
+          console.log(waterLimit.value)
           if (res && res.data && Object.keys(res.data).length > 0)
           {
             var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e =>
             {
-              if (e.activeTools[e.activeTools.length - 1].count < 60 && e.activeTools[e.activeTools.length - 1].type === 'WATER') return e
+              if (e.activeTools.filter(tool => tool.type === 'WATER').length && e.activeTools.filter(tool => tool.type === 'WATER')[0].count < parseInt(waterLimit.value ? waterLimit.value : 60))
+              {
+                console.log(e)
+                return e
+              }
             }) : res.data;
             if (mayCrow && mayCrow.length)
             {
               for (var d = 0; d < mayCrow.length; d++)
               {
+                console.log('water count: ', mayCrow[d].activeTools.filter(tool => tool.type === 'WATER')[0].count)
                 results.innerHTML += `<p style="
     display: flex;
     flex-direction: column;
@@ -90,7 +98,7 @@
 ">
                 <span style="
     color: #007effeb;
-">Water Count: <b>${mayCrow[d].activeTools[1].count}</b></span>
+">Water Count: <b>${mayCrow[d].activeTools.filter(tool => tool.type === 'WATER')[0].count}</b></span>
                 <span>Page: <b>${offset / 10 === 0 ? 1 : parseInt(offset / 10) + 1}</b></span>
                 <span>Coordinates: <b>${mayCrow[d].land.x}, ${mayCrow[d].land.y}</b></span>
                 <span>Plant Element: <b>${mayCrow[d].plantElement}</b></span>
@@ -100,17 +108,21 @@
 ">May crow?: <b>${mayCrow[d].hasCrow ? 'Meron' : 'Bokya'}</b></span ></b></span>
                 <a href="https://marketplace.plantvsundead.com/farm#/farm/other/${id}${parseInt(offset / 10) > 1 ? `?page=${parseInt(offset / 10) + 1}` : ''}" target="_blank">Link</a>
               </p>`
+
+                window.open(`https://marketplace.plantvsundead.com/farm#/farm/other/${id}${parseInt(offset / 10) > 1 ? `?page=${parseInt(offset / 10) + 1}` : ''}`, '_blank')
               }
+
             } else
             {
               results.innerHTML += `<p style="
               display: flex;
-              flex - direction: column;
-              border - bottom: 1px solid #ccc;
+              flex-direction: column;
+              border-bottom: 1px solid #ccc;
               padding: 10px 0;
 ">
 <span>Page: <b>${offset / 10 === 0 ? 1 : parseInt(offset / 10) + 1}</b></span>
 <span>Surprise: Bokya</span>
+ <a href="https://marketplace.plantvsundead.com/farm#/farm/other/${id}${parseInt(offset / 10) > 1 ? `?page=${parseInt(offset / 10) + 1}` : ''}" target="_blank">Link</a>
 </p>`
             }
 
@@ -151,6 +163,7 @@
     var results = document.querySelector('.results')
     var crowOnly = document.querySelector('#crow')
     var waterOnly = document.querySelector('#water')
+    var waterLimit = document.querySelector('#water-limit')
 
     searchBtn.addEventListener('click', function (e)
     {
