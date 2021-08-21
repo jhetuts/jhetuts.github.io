@@ -74,10 +74,12 @@
           }
           if (res && res.data && Object.keys(res.data).length > 0)
           {
-            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e => e.activeTools[e.activeTools.length - 1].count < 60) : res.data;
+            var mayCrow = crowOnly.checked ? res.data.filter(e => e.hasCrow) : waterOnly.checked ? res.data.filter(e =>
+            {
+              if (e.activeTools[e.activeTools.length - 1].count < 60 && e.activeTools[e.activeTools.length - 1].type === 'WATER') return e
+            }) : res.data;
             if (mayCrow && mayCrow.length)
             {
-              results.innerHTML = '<h3>With crow</h3>'
               for (var d = 0; d < mayCrow.length; d++)
               {
                 results.innerHTML += `<p style="
@@ -114,7 +116,7 @@
             if (res.data.length === 10)
             {
               offsetVar = offsetVar + 10;
-              setTimeout(() => checkingCrow(offsetVar, token, id.value), 3000)
+              setTimeout(() => checkingCrow(offsetVar, token, id.value), 2000)
             }
           } else
           {
