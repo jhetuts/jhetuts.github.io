@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event Venue Mapper – Admin Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Admin tool for designing GIS-based event venue layouts." />
+    <script type="module" crossorigin src="/event-mapper/assets/index-BOSCbOPs.js"></script>
+    <link rel="stylesheet" crossorigin href="/event-mapper/assets/index-D1ix9cR8.css">
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100" style="background-color: var(--bg-primary); color: var(--text-primary);">
+    <div id="app" class="h-dvh flex flex-col">
+      <!-- Venue Selection Screen -->
+      <section
+        id="venue-selection-screen"
+        class="flex-1 flex flex-col items-center justify-center px-4 py-6"
+      >
+        <div class="w-full max-w-xl bg-slate-900/80 border border-slate-700 rounded-2xl shadow-2xl p-6">
+          <div class="mb-4 text-center">
+            <h1 class="text-xl md:text-2xl font-semibold tracking-tight">
+              Select Event Venue
+            </h1>
+            <p class="mt-2 text-sm text-slate-300">
+              Search OpenStreetMap for a building, convention center, arena, or polygon-based place to begin mapping.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <label class="block text-xs font-medium uppercase tracking-wide text-slate-400">
+              Venue Search
+              <input
+                id="venue-search-input"
+                type="text"
+                placeholder="Search by venue name, address, or place..."
+                class="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/40"
+                autocomplete="off"
+              />
+            </label>
+            <div id="venue-search-loading" class="hidden text-xs text-slate-400">
+              Searching OpenStreetMap…
+            </div>
+            <div
+              id="venue-search-results"
+              class="max-h-64 overflow-y-auto rounded-xl border border-slate-800 bg-slate-950/90 text-sm divide-y divide-slate-800"
+            ></div>
+            <p class="text-[11px] text-slate-500">
+              Powered by OpenStreetMap Nominatim. Select a venue to continue to the admin mapping tools.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin Application -->
+      <section
+        id="admin-app"
+        class="hidden flex-1 min-h-0 flex flex-col"
+      >
+        <!-- Navbar -->
+        <header class="flex items-center justify-between gap-2 border-b border-slate-800 bg-slate-950/80 px-3 py-2 md:px-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-2">
+              <div class="h-8 w-8 rounded-xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center">
+                <span class="text-xs font-semibold text-emerald-300">EV</span>
+              </div>
+              <div class="leading-tight">
+                <div class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">
+                  Admin Tool
+                </div>
+                <div class="text-sm font-medium truncate">
+                  Event Venue Mapper
+                </div>
+              </div>
+            </div>
+            <div class="hidden md:flex items-center gap-2 pl-4 border-l border-slate-800 text-xs text-slate-300 min-w-0">
+              <span class="uppercase tracking-wide text-slate-500">Venue</span>
+              <span id="navbar-venue-name" class="truncate font-medium text-slate-100">
+                No venue selected
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1 md:gap-2">
+            <!-- Re-center Map Button -->
+            <button
+              id="btn-recenter-map"
+              class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-blue-400 hover:text-blue-100 hover:bg-slate-900 transition"
+              title="Re-center map to venue bounds (Alt+C)"
+            >
+              🎯 Center
+            </button>
+            <button
+              id="btn-change-venue"
+              class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-emerald-400 hover:text-emerald-100 hover:bg-slate-900 transition"
+            >
+              Change Venue
+            </button>
+            <div class="hidden sm:flex items-center gap-1 md:gap-2">
+              <!-- <button
+                id="btn-import-project"
+                class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-sky-400 hover:text-sky-100 hover:bg-slate-900 transition"
+              >
+                Import
+              </button>
+              <button
+                id="btn-export-project"
+                class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-slate-400 hover:bg-slate-900 transition"
+              >
+                Export
+              </button>
+              <button
+                id="btn-export-tiers"
+                class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-slate-400 hover:bg-slate-900 transition"
+              >
+                Tiers JSON
+              </button>
+              <button
+                id="btn-export-png"
+                class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-slate-400 hover:bg-slate-900 transition"
+              >
+                PNG Snapshot
+              </button> -->
+            </div>
+            <button
+              id="btn-generate-viewer"
+              class="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-emerald-950 shadow-md shadow-emerald-500/40 hover:bg-emerald-400 transition"
+            >
+              Generate Viewer
+            </button>
+            
+            <!-- Theme Selector -->
+            <div class="inline-flex items-center rounded-full border bg-slate-900/70 px-1 py-1 md:px-2 md:py-1.5 gap-1">
+              <button
+                id="btn-theme-light"
+                class="px-2 py-1 text-xs font-medium rounded-full transition-all"
+                title="Light theme"
+              >
+                ☀️
+              </button>
+              <button
+                id="btn-theme-dark"
+                class="px-2 py-1 text-xs font-medium rounded-full transition-all"
+                title="Dark theme"
+              >
+                🌙
+              </button>
+              <button
+                id="btn-theme-system"
+                class="px-2 py-1 text-xs font-medium rounded-full transition-all"
+                title="System theme"
+              >
+                ⚙️
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
+          <!-- Left Sidebar -->
+          <aside
+            id="left-sidebar"
+            class="flex w-full md:w-64 shrink-0 gap-4 border-b md:border-b-0 md:border-r border-slate-800 bg-slate-950/90 backdrop-blur flex-row md:flex-col overflow-x-auto md:overflow-y-auto"
+          >
+            <!-- Tools -->
+            <section class="p-3 border-r md:border-r-0 md:border-b border-slate-800 min-w-[220px]">
+              <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                Tools
+              </h2>
+              <div class="grid grid-cols-4 gap-2 text-[11px]">
+                <button
+                  id="tool-add-rect"
+                  class="tool-btn inline-flex flex-col items-center justify-center rounded-xl border border-slate-700 bg-slate-900/80 px-2 py-2 text-center disabled:opacity-40"
+                >
+                  <span class="font-medium">Booth</span>
+                  <span class="text-[10px] text-slate-400">Rectangle</span>
+                </button>
+                <button
+                  id="tool-add-ellipse"
+                  class="tool-btn inline-flex flex-col items-center justify-center rounded-xl border border-slate-700 bg-slate-900/80 px-2 py-2 text-center disabled:opacity-40"
+                >
+                  <span class="font-medium">Booth</span>
+                  <span class="text-[10px] text-slate-400">Ellipse</span>
+                </button>
+                <button
+                  id="tool-add-polygon"
+                  class="tool-btn inline-flex flex-col items-center justify-center rounded-xl border border-slate-700 bg-slate-900/80 px-2 py-2 text-center disabled:opacity-40"
+                >
+                  <span class="font-medium">Area</span>
+                  <span class="text-[10px] text-slate-400">Polygon</span>
+                </button>
+                <button
+                  id="tool-add-image"
+                  class="tool-btn inline-flex flex-col items-center justify-center rounded-xl border border-slate-700 bg-slate-900/80 px-2 py-2 text-center disabled:opacity-40"
+                >
+                  <span class="font-medium">Image</span>
+                  <span class="text-[10px] text-slate-400">Layer</span>
+                </button>
+              </div>
+              <div class="mt-3 flex gap-2 text-[11px]">
+                <button
+                  id="btn-undo"
+                  class="flex-1 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium disabled:opacity-40"
+                >
+                  Undo
+                </button>
+                <button
+                  id="btn-redo"
+                  class="flex-1 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium disabled:opacity-40"
+                >
+                  Redo
+                </button>
+              </div>
+              <div class="mt-2 flex gap-2 text-[11px]">
+                <button
+                  id="btn-clear-project"
+                  class="flex-1 rounded-full border border-rose-600/70 bg-rose-950/70 px-2 py-1 font-medium text-rose-100 hover:bg-rose-900/80"
+                >
+                  Clear Project
+                </button>
+              </div>
+            </section>
+
+            <!-- Tiers -->
+            <section class="p-3 border-r md:border-r-0 md:border-b border-slate-800 min-w-[220px]">
+              <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                Tiers
+              </h2>
+              <div id="tier-list" class="space-y-1 text-xs"></div>
+              <form id="tier-form" class="mt-3 space-y-2 text-[11px]">
+                <div class="flex gap-2">
+                  <input
+                    id="tier-name-input"
+                    type="text"
+                    placeholder="Custom tier name"
+                    class="flex-1 rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-500/40"
+                  />
+                </div>
+                <div class="flex gap-2">
+                  <input
+                    id="tier-width-input"
+                    type="number"
+                    min="10"
+                    class="w-1/3 rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                    placeholder="W"
+                  />
+                  <input
+                    id="tier-height-input"
+                    type="number"
+                    min="10"
+                    class="w-1/3 rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                    placeholder="H"
+                  />
+                  <input
+                    id="tier-color-input"
+                    type="color"
+                    class="w-1/3 rounded-lg border border-slate-700 bg-slate-950/70 px-1 py-1"
+                    value="#22c55e"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="w-full rounded-full bg-slate-800 px-2 py-1 font-medium text-[11px] hover:bg-slate-700"
+                >
+                  Add Tier
+                </button>
+              </form>
+            </section>
+
+            <!-- Grid & Layers -->
+            <section class="p-3 min-w-[220px]">
+              <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                Grid & Layers
+              </h2>
+              <div class="space-y-2 text-[11px]">
+                <label class="flex items-center justify-between gap-2">
+                  <span class="text-slate-300">Show Grid</span>
+                  <input id="grid-toggle" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900" checked />
+                </label>
+                <label class="flex items-center justify-between gap-2">
+                  <span class="text-slate-300">Snap to Grid</span>
+                  <input id="snap-toggle" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900" checked />
+                </label>
+                <label class="flex items-center justify-between gap-2">
+                  <span class="text-slate-300">Grid Size</span>
+                  <input
+                    id="grid-size-input"
+                    type="number"
+                    min="4"
+                    max="128"
+                    value="16"
+                    class="w-16 rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  />
+                </label>
+                <button
+                  id="map-mode-toggle"
+                  type="button"
+                  class="mt-2 w-full rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium text-[11px] text-slate-100"
+                >
+                  Map: Edit Layout
+                </button>
+              </div>
+              <div class="mt-3">
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                  <span>Layers</span>
+                  <span class="text-[10px]">Top &rarr; bottom</span>
+                </div>
+                <div
+                  id="layers-panel"
+                  class="max-h-40 p-4 overflow-y-auto rounded-lg border border-slate-800 bg-slate-950/80 text-xs"
+                ></div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-slate-800">
+                <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                  Overlay Settings
+                </h3>
+                <label class="flex items-center justify-between gap-2 text-xs">
+                  <span class="text-slate-300">Overlay Background</span>
+                  <input
+                    id="overlay-background-input"
+                    type="color"
+                    class="w-12 h-8 rounded-lg border border-slate-700"
+                    defaultValue="#000000"
+                  />
+                </label>
+                <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                  <span class="text-slate-300">Overlay Opacity</span>
+                  <input
+                    id="overlay-opacity-input"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="0"
+                    class="w-20"
+                  />
+                  <span id="overlay-opacity-value" class="text-[11px] text-slate-400 min-w-max">0%</span>
+                </label>
+                <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                  <span class="text-slate-300">Overlay Stroke</span>
+                  <input
+                    id="overlay-stroke-input"
+                    type="color"
+                    class="w-12 h-8 rounded-lg border border-slate-700"
+                    value="#ffffff"
+                  />
+                </label>
+                <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                  <span class="text-slate-300">Stroke Width</span>
+                  <input
+                    id="overlay-stroke-width-input"
+                    type="range"
+                    min="0.5"
+                    max="5"
+                    step="0.5"
+                    value="1"
+                    class="w-20"
+                  />
+                  <span id="overlay-stroke-width-value" class="text-[11px] text-slate-400 min-w-max">1px</span>
+                </label>
+                <div class="mt-3 pt-3 border-t border-slate-800">
+                  <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                    Effects
+                  </h3>
+                  <label class="flex items-center justify-between gap-2 text-xs">
+                    <span class="text-slate-300">Glow Color</span>
+                    <input
+                      id="overlay-glow-color-input"
+                      type="color"
+                      class="w-12 h-8 rounded-lg border border-slate-700"
+                      value="#ffffff"
+                    />
+                  </label>
+                  <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                    <span class="text-slate-300">Glow Intensity</span>
+                    <input
+                      id="overlay-glow-intensity-input"
+                      type="range"
+                      min="0"
+                      max="100"
+                      value="0"
+                      class="w-20"
+                    />
+                    <span id="overlay-glow-intensity-value" class="text-[11px] text-slate-400 min-w-max">0%</span>
+                  </label>
+                  <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                    <span class="text-slate-300">Shadow Blur</span>
+                    <input
+                      id="overlay-shadow-blur-input"
+                      type="range"
+                      min="0"
+                      max="20"
+                      value="0"
+                      class="w-20"
+                    />
+                    <span id="overlay-shadow-blur-value" class="text-[11px] text-slate-400 min-w-max">0px</span>
+                  </label>
+                  <label class="flex items-center justify-between gap-2 text-xs mt-2">
+                    <span class="text-slate-300">Border Radius</span>
+                    <input
+                      id="overlay-border-radius-input"
+                      type="range"
+                      min="0"
+                      max="50"
+                      value="0"
+                      class="w-20"
+                    />
+                    <span id="overlay-border-radius-value" class="text-[11px] text-slate-400 min-w-max">0px</span>
+                  </label>
+                </div>
+              </div>
+            </section>
+          </aside>
+
+          <!-- Map + Canvas -->
+          <section class="flex-1 min-w-0 min-h-0 relative bg-slate-900">
+            <div id="map-container" class="absolute inset-0">
+              <div id="map" class="h-full w-full"></div>
+              <canvas
+                id="map-canvas"
+                class="absolute inset-0 pointer-events-auto touch-none"
+              ></canvas>
+            </div>
+            <div
+              id="mapping-disabled-overlay"
+              class="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm text-center text-sm text-slate-200"
+            >
+              <div class="px-4">
+                <p class="font-medium">
+                  Select an event venue to begin mapping.
+                </p>
+                <p class="mt-1 text-xs text-slate-300">
+                  Mapping tools are disabled until a venue is selected.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Right Sidebar -->
+          <aside
+            id="right-sidebar"
+            class="w-full md:w-72 shrink-0 border-t md:border-t-0 md:border-l border-slate-800 bg-slate-950/90 backdrop-blur px-3 py-3 md:px-4 md:py-4 overflow-y-auto"
+          >
+            <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+              Element Properties
+            </h2>
+            <div id="no-selection-panel" class="text-xs text-slate-400">
+              Select a booth or area on the map to edit its properties.
+            </div>
+            <form
+              id="element-form"
+              class="hidden space-y-2 text-xs"
+              autocomplete="off"
+            >
+              <input type="hidden" id="element-id" />
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-slate-400">Type</span>
+                <span id="element-type-label" class="font-medium text-slate-100"></span>
+              </div>
+              <label class="block">
+                <span class="text-slate-300">Name</span>
+                <input
+                  id="element-name-input"
+                  type="text"
+                  class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-500/40"
+                />
+              </label>
+              <label class="block">
+                <span class="text-slate-300">Tier</span>
+                <select
+                  id="element-tier-select"
+                  class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                ></select>
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="block">
+                  <span class="text-slate-300">Width</span>
+                  <input
+                    id="element-width-input"
+                    type="number"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  />
+                </label>
+                <label class="block">
+                  <span class="text-slate-300">Height</span>
+                  <input
+                    id="element-height-input"
+                    type="number"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  />
+                </label>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="block">
+                  <span class="text-slate-300">Rotation (°)</span>
+                  <input
+                    id="element-rotation-input"
+                    type="number"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  />
+                </label>
+                <label class="block">
+                  <span class="text-slate-300">Radius</span>
+                  <input
+                    id="element-radius-input"
+                    type="number"
+                    min="0"
+                    max="50"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  />
+                </label>
+              </div>
+              <label class="block">
+                <span class="text-slate-300">Locked</span>
+                <div class="mt-1 flex items-center gap-2">
+                  <input
+                    id="element-locked-input"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-slate-600 bg-slate-900"
+                  />
+                  <span class="text-[11px] text-slate-400">Prevent moving/resizing</span>
+                </div>
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="block">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-slate-300">Fill Color</span>
+                    <input
+                      id="element-show-fill-input"
+                      type="checkbox"
+                      checked
+                      class="h-4 w-4 rounded border-slate-600 bg-slate-900"
+                    />
+                  </div>
+                  <input
+                    id="element-color-input"
+                    type="color"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-1 py-1"
+                  />
+                </label>
+                <label class="block">
+                  <span class="text-slate-300">Fill Opacity</span>
+                  <div class="mt-1 flex items-center gap-2">
+                    <input
+                      id="element-opacity-input"
+                      type="range"
+                      min="0"
+                      max="100"
+                      class="flex-1 h-2 rounded-lg bg-slate-700 accent-emerald-500"
+                    />
+                    <span id="element-opacity-value" class="text-[11px] text-slate-400 w-8 text-right">100%</span>
+                  </div>
+                </label>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="block">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-slate-300">Border Color</span>
+                    <input
+                      id="element-show-border-input"
+                      type="checkbox"
+                      checked
+                      class="h-4 w-4 rounded border-slate-600 bg-slate-900"
+                    />
+                  </div>
+                  <input
+                    id="element-border-color-input"
+                    type="color"
+                    class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-1 py-1"
+                  />
+                </label>
+              </div>
+              <label class="block">
+                <span class="text-slate-300">Text Color</span>
+                <input
+                  id="element-text-color-input"
+                  type="color"
+                  class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-1 py-1"
+                />
+              </label>
+              <label class="block">
+                <span class="text-slate-300">Logo URL</span>
+                <input
+                  id="element-logo-input"
+                  type="url"
+                  class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  placeholder="https://example.com/logo.png"
+                />
+              </label>
+              <label class="block">
+                <span class="text-slate-300">Notes</span>
+                <textarea
+                  id="element-notes-input"
+                  rows="3"
+                  class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-1 text-xs"
+                  placeholder="Describe usage, sponsors, room purpose, etc."
+                ></textarea>
+              </label>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button
+                  type="button"
+                  id="btn-duplicate-element"
+                  class="flex-1 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium text-[11px]"
+                >
+                  Duplicate
+                </button>
+                <button
+                  type="button"
+                  id="btn-delete-element"
+                  class="flex-1 rounded-full border border-rose-600/70 bg-rose-950/70 px-2 py-1 font-medium text-[11px] text-rose-100 hover:bg-rose-900/80"
+                >
+                  Delete
+                </button>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-1 border-t border-slate-800">
+                <button
+                  type="button"
+                  id="btn-layer-forward"
+                  class="flex-1 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium text-[11px]"
+                >
+                  Bring Forward
+                </button>
+                <button
+                  type="button"
+                  id="btn-layer-backward"
+                  class="flex-1 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 font-medium text-[11px]"
+                >
+                  Send Backward
+                </button>
+              </div>
+            </form>
+          </aside>
+        </main>
+      </section>
+    </div>
+
+  </body>
+</html>
+
