@@ -1,0 +1,165 @@
+{
+  "venue": {
+    "width": 1200,
+    "height": 800,
+    "gridSize": 20,
+    "showGrid": false,
+    "snapToGrid": false,
+    "backgroundColor": "#f8fafc",
+    "backgroundOpacity": 1
+  },
+  "elements": [
+    {
+      "id": "booth_1",
+      "type": "booth",
+      "shape": "square",
+      "x": 100,
+      "y": 100,
+      "width": 120,
+      "height": 100,
+      "rotation": 0,
+      "name": "TechCorp",
+      "boothNumber": "A1",
+      "description": "Leading technology solutions provider",
+      "fillColor": "#3b82f6",
+      "textColor": "#ffffff",
+      "showWebsiteCTA": true,
+      "showDescription": true,
+      "websiteUrl": "https://example.com",
+      "isStartingPoint": true
+    },
+    {
+      "id": "booth_2",
+      "type": "booth",
+      "shape": "square",
+      "x": 300,
+      "y": 100,
+      "width": 120,
+      "height": 100,
+      "rotation": 0,
+      "name": "DesignHub",
+      "boothNumber": "A2",
+      "description": "Creative design agency",
+      "fillColor": "#8b5cf6",
+      "textColor": "#ffffff",
+      "showWebsiteCTA": true,
+      "showDescription": true,
+      "websiteUrl": "https://example.com",
+      "isStartingPoint": false
+    },
+    {
+      "id": "booth_3",
+      "type": "booth",
+      "shape": "circle",
+      "x": 500,
+      "y": 100,
+      "width": 100,
+      "height": 100,
+      "rotation": 0,
+      "name": "GreenEnergy",
+      "boothNumber": "B1",
+      "description": "Sustainable energy solutions",
+      "fillColor": "#10b981",
+      "textColor": "#ffffff",
+      "showWebsiteCTA": true,
+      "showDescription": true,
+      "websiteUrl": "https://example.com",
+      "isStartingPoint": false
+    },
+    {
+      "id": "booth_4",
+      "type": "booth",
+      "shape": "square",
+      "x": 100,
+      "y": 300,
+      "width": 140,
+      "height": 100,
+      "rotation": 0,
+      "name": "CloudBase",
+      "boothNumber": "C1",
+      "description": "Cloud infrastructure and services",
+      "fillColor": "#f59e0b",
+      "textColor": "#ffffff",
+      "showWebsiteCTA": true,
+      "showDescription": true,
+      "websiteUrl": "https://example.com",
+      "isStartingPoint": false
+    },
+    {
+      "id": "booth_5",
+      "type": "booth",
+      "shape": "circle",
+      "x": 350,
+      "y": 320,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "name": "DataFlow",
+      "boothNumber": "C2",
+      "description": "Real-time data analytics platform",
+      "fillColor": "#ef4444",
+      "textColor": "#ffffff",
+      "showWebsiteCTA": true,
+      "showDescription": true,
+      "isStartingPoint": false
+    },
+    {
+      "id": "text_welcome",
+      "type": "text",
+      "x": 400,
+      "y": 20,
+      "width": 400,
+      "height": 50,
+      "rotation": 0,
+      "text": "Welcome to Tech Expo 2026",
+      "fontSize": 24,
+      "fontWeight": "bold",
+      "fillColor": "transparent",
+      "textColor": "#1e293b"
+    }
+  ],
+  "paths": [
+    {
+      "id": "path_1",
+      "from": "booth_1",
+      "to": "booth_2",
+      "path": [
+        { "x": 160, "y": 200 },
+        { "x": 160, "y": 250 },
+        { "x": 360, "y": 250 },
+        { "x": 360, "y": 200 }
+      ]
+    },
+    {
+      "id": "path_2",
+      "from": "booth_1",
+      "to": "booth_3",
+      "path": [
+        { "x": 160, "y": 200 },
+        { "x": 160, "y": 270 },
+        { "x": 550, "y": 270 },
+        { "x": 550, "y": 200 }
+      ]
+    },
+    {
+      "id": "path_3",
+      "from": "booth_1",
+      "to": "booth_4",
+      "path": [
+        { "x": 160, "y": 200 },
+        { "x": 160, "y": 350 }
+      ]
+    },
+    {
+      "id": "path_4",
+      "from": "booth_1",
+      "to": "booth_5",
+      "path": [
+        { "x": 160, "y": 200 },
+        { "x": 160, "y": 270 },
+        { "x": 390, "y": 270 },
+        { "x": 390, "y": 360 }
+      ]
+    }
+  ]
+}

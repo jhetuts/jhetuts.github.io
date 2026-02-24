@@ -1,0 +1,9 @@
+# SPA fallback: serve index.html for routes like /admin so React Router can load
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /2d-event-venue-mapper/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . index.html [L]
+</IfModule>
