@@ -1,6 +1,6 @@
 {
   "projectName": "icn-2026",
-  "updatedAt": "2026-03-23T08:31:54.417Z",
+  "updatedAt": "2026-03-23T08:57:11.587Z",
   "venue": {
     "width": 2499.587252480527,
     "height": 1080.4431418224547,
@@ -15,7 +15,19 @@
     "tiers": [
       {
         "id": "tier-diamond",
-        "name": "Diamond"
+        "name": "Diamond",
+        "boothStyle": {
+          "glow": true,
+          "scale": true,
+          "shadow": true,
+          "sparkle": true
+        },
+        "popupStyle": {
+          "glow": true,
+          "sparkle": true,
+          "shadow": true,
+          "scale": true
+        }
       },
       {
         "id": "tier-gold",
@@ -1057,7 +1069,7 @@
       "height": 64.00808221517661,
       "rotation": 0,
       "floorId": "floor-1",
-      "name": "Booth",
+      "name": "Meta",
       "boothNumber": "1",
       "fillEnabled": false,
       "fillColor": "#6d6969",
@@ -1072,17 +1084,17 @@
       "websiteCtaButtonColor": "#111827",
       "websiteCtaTextColor": "#ffffff",
       "websiteCtaRadius": 10,
-      "showVisitedCTA": false,
+      "showVisitedCTA": true,
       "visitedCtaText": "Mark as visited",
       "visitedCtaButtonColor": "#111827",
       "visitedCtaTextColor": "#ffffff",
       "visitedCtaRadius": 10,
-      "showFavoriteCTA": false,
+      "showFavoriteCTA": true,
       "favoriteCtaText": "Mark as favorite",
       "favoriteCtaButtonColor": "#111827",
       "favoriteCtaTextColor": "#ffffff",
       "favoriteCtaRadius": 10,
-      "showRateCTA": false,
+      "showRateCTA": true,
       "rateCtaText": "Rate",
       "rateCtaButtonColor": "#111827",
       "rateCtaTextColor": "#ffffff",
@@ -1092,8 +1104,11 @@
       "directionCtaButtonColor": "#111827",
       "directionCtaTextColor": "#ffffff",
       "directionCtaRadius": 10,
-      "popupConfigured": false,
-      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png"
+      "popupConfigured": true,
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Meta-Logo.png/1280px-Meta-Logo.png",
+      "tierId": "tier-diamond",
+      "description": "Meta is a technology company—formerly Facebook, Inc.—that owns Facebook, Instagram, WhatsApp, and Messenger, focusing on building a \"metaverse\" of interconnected digital experiences.",
+      "websiteUrl": "https://www.facebook.com/"
     },
     {
       "id": "el_1773982142539_01sw3xt",
@@ -1105,7 +1120,7 @@
       "height": 60.44537259134995,
       "rotation": 0,
       "floorId": "floor-1",
-      "name": "Booth",
+      "name": "Google",
       "boothNumber": "2",
       "fillEnabled": false,
       "fillColor": "#6d6969",
@@ -1120,17 +1135,17 @@
       "websiteCtaButtonColor": "#111827",
       "websiteCtaTextColor": "#ffffff",
       "websiteCtaRadius": 10,
-      "showVisitedCTA": false,
+      "showVisitedCTA": true,
       "visitedCtaText": "Mark as visited",
       "visitedCtaButtonColor": "#111827",
       "visitedCtaTextColor": "#ffffff",
       "visitedCtaRadius": 10,
-      "showFavoriteCTA": false,
+      "showFavoriteCTA": true,
       "favoriteCtaText": "Mark as favorite",
       "favoriteCtaButtonColor": "#111827",
       "favoriteCtaTextColor": "#ffffff",
       "favoriteCtaRadius": 10,
-      "showRateCTA": false,
+      "showRateCTA": true,
       "rateCtaText": "Rate",
       "rateCtaButtonColor": "#111827",
       "rateCtaTextColor": "#ffffff",
@@ -1140,8 +1155,11 @@
       "directionCtaButtonColor": "#111827",
       "directionCtaTextColor": "#ffffff",
       "directionCtaRadius": 10,
-      "popupConfigured": false,
-      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png"
+      "popupConfigured": true,
+      "logoUrl": "https://static.vecteezy.com/system/resources/previews/042/165/816/non_2x/google-logo-transparent-free-png.png",
+      "description": "Google is the world's leading technology corporation and search engine, founded in 1998 by Larry Page and Sergey Brin to organize the world’s information.",
+      "tierId": "tier-diamond",
+      "websiteUrl": "https://www.google.com"
     },
     {
       "id": "el_1773982150724_japb76f",
@@ -1360,7 +1378,7 @@
       "websiteCtaButtonColor": "#111827",
       "websiteCtaTextColor": "#ffffff",
       "websiteCtaRadius": 10,
-      "showVisitedCTA": false,
+      "showVisitedCTA": true,
       "visitedCtaText": "Mark as visited",
       "visitedCtaButtonColor": "#111827",
       "visitedCtaTextColor": "#ffffff",
@@ -1381,7 +1399,8 @@
       "directionCtaTextColor": "#ffffff",
       "directionCtaRadius": 10,
       "popupConfigured": true,
-      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png"
+      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png",
+      "description": "This is the Ceremonial Hall"
     },
     {
       "id": "el_1774238125659_ln1j6q9",
@@ -3050,17 +3069,17 @@
       "websiteCtaButtonColor": "#111827",
       "websiteCtaTextColor": "#ffffff",
       "websiteCtaRadius": 10,
-      "showVisitedCTA": false,
+      "showVisitedCTA": true,
       "visitedCtaText": "Mark as visited",
       "visitedCtaButtonColor": "#111827",
       "visitedCtaTextColor": "#ffffff",
       "visitedCtaRadius": 10,
-      "showFavoriteCTA": false,
+      "showFavoriteCTA": true,
       "favoriteCtaText": "Mark as favorite",
       "favoriteCtaButtonColor": "#111827",
       "favoriteCtaTextColor": "#ffffff",
       "favoriteCtaRadius": 10,
-      "showRateCTA": false,
+      "showRateCTA": true,
       "rateCtaText": "Rate",
       "rateCtaButtonColor": "#111827",
       "rateCtaTextColor": "#ffffff",
@@ -3070,8 +3089,10 @@
       "directionCtaButtonColor": "#111827",
       "directionCtaTextColor": "#ffffff",
       "directionCtaRadius": 10,
-      "popupConfigured": false,
-      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png"
+      "popupConfigured": true,
+      "logoUrl": "https://placehold.co/400x400/000000/FFFFFF.png",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "websiteUrl": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     },
     {
       "id": "el_1774251885306_nym8981",
